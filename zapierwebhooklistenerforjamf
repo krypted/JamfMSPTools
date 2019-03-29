@@ -1,0 +1,27 @@
+var added = [];
+var removed = [];
+if(inputData.addedComputers) {
+added = inputData.addedComputers.split(',');
+}
+if(inputData.removedComputers) {
+removed = inputData.removedComputers.split(',');
+}
+ 
+var otherZapURL = "https://hooks.zapier.com/hooks/catch/3491337/wk7qh8/";
+for(var i = 0; i< added.length; i++) {
+var addedBody = JSON.stringify({
+computer: added[i],
+status: "added",
+eventname:inputData.eventName
+});
+await fetch(otherZapURL, {method:'POST', body:addedBody});
+}
+for(var i = 0; i< removed.length; i++) {
+var removedBody = JSON.stringify({
+computer: removed[i],
+status: "removed",
+eventname:inputData.eventName
+});
+await fetch(otherZapURL, {method:'POST', body:removedBody});
+}
+return [{status: 'ok'}];
